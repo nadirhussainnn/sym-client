@@ -6,6 +6,7 @@ import { setFriends } from "state";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 import { BASE_URL } from "constant";
+import { useEffect, useState } from "react";
 
 const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const dispatch = useDispatch();
@@ -19,9 +20,16 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const primaryDark = palette.primary.dark;
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
-  console.log("friends====> ",friends);
-  let isFriend = friends.friends.length;
-  console.log("isFriend",isFriend,'friendId',friendId);
+
+  const [isFriend, setIsFriend]=useState(false)
+
+  useEffect(()=>{
+
+    if(friends && friends.friends && friends.friends.length>=0){
+      setIsFriend(true)      
+    }
+  },[friends])
+
   const patchFriend = async () => {
     const response = await fetch(
       `${BASE_URL}/users/${_id}/${friendId}`,
